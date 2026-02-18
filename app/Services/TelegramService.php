@@ -24,8 +24,8 @@ class TelegramService
             $cleanContent = preg_replace('/\. /', ".\n\n", $cleanContent);
             
             // Telegram caption limit is 1024 characters
-            if (mb_strlen($cleanContent) > 900) {
-                $cleanContent = mb_substr($cleanContent, 0, 900) . '...';
+            if (mb_strlen($cleanContent) > 600) {
+                $cleanContent = mb_substr($cleanContent, 0, 600) . '...';
             }
             
             $message = "📰 *{$title}*\n\n{$cleanContent}\n\n🔗 [اقرأ المزيد](http://localhost:3000/article/{$articleId})";
