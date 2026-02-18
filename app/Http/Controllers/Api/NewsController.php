@@ -5,10 +5,14 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Agents\TechNewsAgent;
 use App\Models\Article;
+use App\Services\ImageService;
 
 class NewsController extends Controller
 {
-    public function __construct(protected TechNewsAgent $agent) {}
+    public function __construct(
+        protected TechNewsAgent $agent,
+        protected ImageService $imageService
+    ) {}
     
     public function discover()
     {
@@ -24,9 +28,11 @@ class NewsController extends Controller
     public function createFromNews(string $newsTitle)
     {
         $summary = $this->agent->summarizeNews($newsTitle);
+        $imageUrl = $this->imageService->getImageForTopic($newsTitle);
         
         $article = Article::create([
             'topic' => $newsTitle,
+            'image_url' => $imageUrl,
             'research' => 'خبر تقني حديث',
             'content' => $summary,
             'seo_data' => ['type' => 'news'],
