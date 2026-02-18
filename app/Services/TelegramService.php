@@ -20,17 +20,25 @@ class TelegramService
         try {
             $cleanContent = strip_tags($content);
             
+            // Telegram caption limit is 1024 characters
+            if (mb_strlen($cleanContent) > 900) {
+                $cleanContent = mb_substr($cleanContent, 0, 900) . '...';
+            }
+            
             $message = "📰 *{$title}*\n\n{$cleanContent}\n\n🔗 [اقرأ المزيد](http://localhost:3000/article/{$articleId})";
             
-            Http::post("https://api.telegram.org/bot{$this->botToken}/sendPhoto", [
+            $response = Http::timeout(30)->post("https://api.telegram.org/bot{$this->botToken}/sendPhoto", [
                 'chat_id' => $this->channelId,
                 'photo' => $imageUrl,
                 'caption' => $message,
                 'parse_mode' => 'Markdown'
             ]);
             
-            return true;
+            \Log::info('Telegram Response:', $response->json());
+            
+            return $response->successful();
         } catch (\Exception $e) {
+            \Log::error('Telegram Error: ' . $e->getMessage());
             return false;
         }
     }
