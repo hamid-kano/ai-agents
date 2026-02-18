@@ -12,7 +12,12 @@ class NewsController extends Controller
     
     public function discover()
     {
-        $news = $this->agent->discoverLatestNews();
+        $publishedTopics = Article::latest()
+            ->take(20)
+            ->pluck('topic')
+            ->toArray();
+        
+        $news = $this->agent->discoverLatestNews($publishedTopics);
         return response()->json($news);
     }
     
