@@ -11,8 +11,8 @@ class ResearcherAgent
     public function research(string $topic): array
     {
         $result = $this->service->execute(
-            'باحث تقني متخصص',
-            "ابحث عن الموضوع: {$topic}. قدم 5 نقاط رئيسية مع مصادر موثوقة"
+            'محلل أخبار تقنية',
+            "ابحث عن آخر الأخبار والتحديثات حول: {$topic}. اذكر 3 نقاط رئيسية فقط بشكل مختصر"
         );
         
         return [

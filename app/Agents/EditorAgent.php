@@ -11,8 +11,8 @@ class EditorAgent
     public function edit(string $content): string
     {
         return $this->service->execute(
-            'محرر تقني',
-            'راجع المقال وحسّن الصياغة والأسلوب والدقة اللغوية. حافظ على المحتوى التقني',
+            'محرر أخبار',
+            'راجع الخبر وتأكد من الدقة والوضوح. احتفظ بالأسلوب المختصر والمباشر',
             ['content' => $content]
         );
     }

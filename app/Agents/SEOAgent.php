@@ -11,8 +11,8 @@ class SEOAgent
     public function optimize(string $content, string $topic): array
     {
         $result = $this->service->execute(
-            'خبير SEO',
-            "حلل المقال واقترح: 1) عنوان SEO 2) وصف ميتا 3) كلمات مفتاحية",
+            'خبير SEO للأخبار',
+            "اقترح: 1) عنوان جذاب للخبر 2) وصف ميتا قصير 3) 3 كلمات مفتاحية",
             ['content' => $content, 'topic' => $topic]
         );
         
