@@ -20,6 +20,9 @@ class TelegramService
         try {
             $cleanContent = strip_tags($content);
             
+            // Add line break after each sentence
+            $cleanContent = preg_replace('/\. /', ".\n\n", $cleanContent);
+            
             // Telegram caption limit is 1024 characters
             if (mb_strlen($cleanContent) > 900) {
                 $cleanContent = mb_substr($cleanContent, 0, 900) . '...';
