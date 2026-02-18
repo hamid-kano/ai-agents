@@ -12,13 +12,10 @@ class SEOAgent
     {
         $result = $this->service->execute(
             'خبير SEO',
-            "حلل المقال واقترح: 1) عنوان SEO 2) وصف ميتا 3) كلمات مفتاحية 4) عناوين فرعية محسّنة",
+            "حلل المقال واقترح: 1) عنوان SEO 2) وصف ميتا 3) كلمات مفتاحية",
             ['content' => $content, 'topic' => $topic]
         );
         
-        return [
-            'suggestions' => $result,
-            'analyzed_at' => now()
-        ];
+        return ['suggestions' => $result, 'analyzed_at' => now()];
     }
 }

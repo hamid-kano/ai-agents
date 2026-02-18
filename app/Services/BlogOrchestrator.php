@@ -24,8 +24,7 @@ class BlogOrchestrator
             'topic' => $topic,
             'research' => $research,
             'content' => $edited,
-            'seo' => $seoData,
-            'created_at' => now()
+            'seo' => $seoData
         ];
     }
 }
