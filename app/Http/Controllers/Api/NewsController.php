@@ -5,13 +5,14 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Agents\TechNewsAgent;
 use App\Models\Article;
-use App\Services\ImageService;
+use App\Services\{ImageService, TelegramService};
 
 class NewsController extends Controller
 {
     public function __construct(
         protected TechNewsAgent $agent,
-        protected ImageService $imageService
+        protected ImageService $imageService,
+        protected TelegramService $telegram
     ) {}
     
     public function discover()
@@ -37,6 +38,13 @@ class NewsController extends Controller
             'content' => $summary,
             'seo_data' => ['type' => 'news'],
         ]);
+        
+        $this->telegram->sendArticle(
+            $newsTitle,
+            $summary,
+            $imageUrl,
+            $article->id
+        );
         
         return response()->json($article, 201);
     }
