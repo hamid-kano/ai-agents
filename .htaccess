@@ -1,0 +1,14 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    
+    # إذا كان الملف موجود، اعرضه
+    RewriteCond %{REQUEST_FILENAME} -f
+    RewriteRule ^ - [L]
+    
+    # إذا كان API request، وجهه لـ Laravel
+    RewriteRule ^api/(.*)$ index.php [L]
+    
+    # باقي الطلبات لـ Laravel
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^ index.php [L]
+</IfModule>
