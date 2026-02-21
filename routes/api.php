@@ -9,7 +9,7 @@ Route::prefix('articles')->group(function () {
     Route::get('/{article}', [ArticleController::class, 'show']);
 });
 
-Route::prefix('news')->group(function () {
-    Route::get('/discover', [NewsController::class, 'discover']);
-    Route::post('/create/{newsTitle}', [NewsController::class, 'createFromNews']);
+Route::prefix('news')->name('api.news.')->group(function () {
+    Route::get('/discover', [NewsController::class, 'discover'])->name('discover');
+    Route::post('/{newsTitle}', [NewsController::class, 'createFromNews'])->name('create');
 });

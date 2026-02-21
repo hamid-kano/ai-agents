@@ -9,7 +9,7 @@
 
 @section('content')
 <div class="max-w-4xl mx-auto px-4 py-8">
-    <h2 class="text-3xl font-bold mb-6 bg-gradient-to-r from-cyan-300 to-purple-300 bg-clip-text text-transparent">اكتشف أخبار تقنية</h2>
+    <h2 class="text-3xl font-bold mb-6 bg-gradient-to-r from-cyan-300 to-purple-300 bg-clip-text text-transparent">اكتشف أحدث الأخبار التقنية</h2>
     
     <button id="discoverBtn" onclick="discoverNews()" 
         class="w-full px-8 py-4 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-lg hover:from-green-700 hover:to-emerald-700 transition-all font-bold text-lg shadow-sm flex items-center justify-center gap-2">
@@ -27,7 +27,7 @@ async function discoverNews() {
     btnText.textContent = 'جاري البحث...';
     
     try {
-        const res = await fetch('/api/news/discover');
+        const res = await fetch('{{ route('api.news.discover') }}');
         const data = await res.json();
         const newsItems = data.news.split('\n').filter(n => n.trim());
         displayNews(newsItems);
@@ -62,12 +62,12 @@ async function createArticle(newsTitle, index) {
     btnText.textContent = 'جاري الصياغة...';
     
     try {
-        const res = await fetch(`/api/news/${encodeURIComponent(newsTitle)}`, {
+        const res = await fetch(`{{ url('api/news') }}/${encodeURIComponent(newsTitle)}`, {
             method: 'POST',
             headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' }
         });
         const article = await res.json();
-        window.location.href = `/articles/${article.id}`;
+        window.location.href = `{{ url('articles') }}/${article.id}`;
     } catch (error) {
         alert('حدث خطأ');
         btn.disabled = false;
