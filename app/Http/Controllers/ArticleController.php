@@ -46,6 +46,11 @@ class ArticleController extends Controller
         return redirect()->route('articles.show', $article);
     }
     
+    public function news()
+    {
+        return view('articles.news');
+    }
+    
     public function show(Article $article)
     {
         return view('articles.show', compact('article'));
