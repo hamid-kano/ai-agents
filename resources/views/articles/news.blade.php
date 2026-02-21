@@ -20,6 +20,11 @@
 </div>
 
 <script>
+const apiDiscoverUrl = '{{ route("api.news.discover") }}';
+const apiNewsUrl = '{{ url("api/news") }}';
+const articlesUrl = '{{ url("articles") }}';
+const csrfToken = '{{ csrf_token() }}';
+
 async function discoverNews() {
     const btn = document.getElementById('discoverBtn');
     const btnText = document.getElementById('btnText');
@@ -27,7 +32,7 @@ async function discoverNews() {
     btnText.textContent = 'جاري البحث...';
     
     try {
-        const res = await fetch('{{ route('api.news.discover') }}');
+        const res = await fetch(apiDiscoverUrl);
         const data = await res.json();
         const newsItems = data.news.split('\n').filter(n => n.trim());
         displayNews(newsItems);
@@ -41,18 +46,33 @@ async function discoverNews() {
 
 function displayNews(newsItems) {
     const container = document.getElementById('newsContainer');
-    container.innerHTML = newsItems.map((item, i) => `
-        <div class="bg-slate-800/50 backdrop-blur-xl rounded-2xl shadow-2xl border border-purple-500/20 p-4 hover:border-cyan-500/40 transition-all">
-            <div class="text-gray-300 mb-3">
-                <p class="text-gray-200">${item}</p>
-            </div>
-            <button onclick="createArticle('${item.replace(/'/g, "\\'")}', ${i})" 
-                id="createBtn${i}"
-                class="text-sm bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-2 rounded hover:from-blue-700 hover:to-purple-700 transition-all flex items-center gap-2">
-                <span id="createText${i}">صياغة الخبر</span>
-            </button>
-        </div>
-    `).join('');
+    container.innerHTML = '';
+    
+    newsItems.forEach((item, i) => {
+        const div = document.createElement('div');
+        div.className = 'bg-slate-800/50 backdrop-blur-xl rounded-2xl shadow-2xl border border-purple-500/20 p-4 hover:border-cyan-500/40 transition-all';
+        
+        const textDiv = document.createElement('div');
+        textDiv.className = 'text-gray-300 mb-3';
+        const p = document.createElement('p');
+        p.className = 'text-gray-200';
+        p.textContent = item;
+        textDiv.appendChild(p);
+        
+        const btn = document.createElement('button');
+        btn.id = 'createBtn' + i;
+        btn.className = 'text-sm bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-2 rounded hover:from-blue-700 hover:to-purple-700 transition-all flex items-center gap-2';
+        btn.onclick = () => createArticle(item, i);
+        
+        const span = document.createElement('span');
+        span.id = 'createText' + i;
+        span.textContent = 'صياغة الخبر';
+        btn.appendChild(span);
+        
+        div.appendChild(textDiv);
+        div.appendChild(btn);
+        container.appendChild(div);
+    });
 }
 
 async function createArticle(newsTitle, index) {
@@ -62,12 +82,12 @@ async function createArticle(newsTitle, index) {
     btnText.textContent = 'جاري الصياغة...';
     
     try {
-        const res = await fetch(`{{ url('api/news') }}/${encodeURIComponent(newsTitle)}`, {
+        const res = await fetch(`${apiNewsUrl}/${encodeURIComponent(newsTitle)}`, {
             method: 'POST',
-            headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' }
+            headers: { 'X-CSRF-TOKEN': csrfToken }
         });
         const article = await res.json();
-        window.location.href = `{{ url('articles') }}/${article.id}`;
+        window.location.href = `${articlesUrl}/${article.id}`;
     } catch (error) {
         alert('حدث خطأ');
         btn.disabled = false;

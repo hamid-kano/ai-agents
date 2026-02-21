@@ -23,7 +23,7 @@
             </div>
             @endif
 
-            <div class="prose prose-xl prose-invert max-w-none [&>p]:mb-8 [&>p]:leading-relaxed prose-headings:font-bold prose-headings:mb-6 prose-headings:mt-10 prose-h2:text-4xl prose-h2:leading-snug prose-h2:bg-gradient-to-r prose-h2:from-cyan-300 prose-h2:to-purple-300 prose-h2:bg-clip-text prose-h2:text-transparent prose-h3:text-3xl prose-h3:leading-snug prose-h3:text-cyan-300 [&>p]:text-gray-200 [&>p]:text-lg prose-strong:text-cyan-300 prose-strong:font-bold prose-ul:text-gray-200 prose-ul:text-lg prose-ul:leading-relaxed prose-ul:space-y-3 prose-ul:my-6 prose-li:my-2 prose-a:text-cyan-400 prose-a:no-underline hover:prose-a:text-cyan-300">
+            <div class="text-white text-lg leading-relaxed space-y-6">
                 {!! nl2br(e($article->content)) !!}
             </div>
 
