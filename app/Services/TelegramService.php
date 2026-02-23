@@ -18,23 +18,22 @@ class TelegramService
     public function sendArticle(string $title, string $content, string $imageUrl, int $articleId): bool
     {
         try {
-            $cleanContent = strip_tags($content);
+            $cleanTitle = html_entity_decode(strip_tags($title), ENT_QUOTES | ENT_HTML5, 'UTF-8');
+            $cleanContent = html_entity_decode(strip_tags($content), ENT_QUOTES | ENT_HTML5, 'UTF-8');
             
-            // Add line break after each sentence
             $cleanContent = preg_replace('/\. /', ".\n\n", $cleanContent);
             
-            // Telegram caption limit is 1024 characters
-            if (mb_strlen($cleanContent) > 600) {
-                $cleanContent = mb_substr($cleanContent, 0, 600) . '...';
+            if (mb_strlen($cleanContent) > 200) {
+                $cleanContent = mb_substr($cleanContent, 0, 200) . '...';
             }
             
-            $message = "📰 *{$title}*\n\n{$cleanContent}\n\n🔗 [اقرأ المزيد](http://localhost:3000/article/{$articleId})";
+            $readMoreUrl = "https://lightslategrey-gorilla-734246.hostingersite.com/article/{$articleId}";
+            $message = "📰 {$cleanTitle}\n\n{$cleanContent}\n\n🔗 اقرأ المزيد: {$readMoreUrl}";
             
             $response = Http::timeout(30)->post("https://api.telegram.org/bot{$this->botToken}/sendPhoto", [
                 'chat_id' => $this->channelId,
                 'photo' => $imageUrl,
-                'caption' => $message,
-                'parse_mode' => 'Markdown'
+                'caption' => $message
             ]);
             
             \Log::info('Telegram Response:', $response->json());
@@ -44,5 +43,5 @@ class TelegramService
             \Log::error('Telegram Error: ' . $e->getMessage());
             return false;
         }
-    }
+    
 }
