@@ -35,7 +35,7 @@
             try {
                 const res = await fetch(apiDiscoverUrl);
                 const data = await res.json();
-                const newsItems = data.news.split('\n').filter(n => n.trim());
+                const newsItems = data.news.split('\n\n').filter(n => n.trim() && !n.startsWith('---'));
                 displayNews(newsItems);
             } catch (error) {
                 alert('حدث خطأ');
