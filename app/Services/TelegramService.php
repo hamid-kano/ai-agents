@@ -26,8 +26,8 @@ class TelegramService
             $cleanContent = preg_replace('/\*\*/', '', $cleanContent);
             $cleanContent = preg_replace('/\. /', ".\n\n", $cleanContent);
             
-            if (mb_strlen($cleanContent) > 200) {
-                $cleanContent = mb_substr($cleanContent, 0, 200) . '...';
+            if (mb_strlen($cleanContent) > 500) {
+                $cleanContent = mb_substr($cleanContent, 0, 500) . '...';
             }
             
             $readMoreUrl = "https://lightslategrey-gorilla-734246.hostingersite.com/articles/{$articleId}";
