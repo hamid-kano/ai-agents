@@ -50,22 +50,34 @@
             container.innerHTML = '';
 
             newsItems.forEach((item, i) => {
+                const lines = item.split('\n').filter(l => l.trim());
+                const title = lines[0] || item;
+                const description = lines.slice(1).join(' ') || '';
+                
                 const div = document.createElement('div');
                 div.className =
                     'bg-slate-800/50 backdrop-blur-xl rounded-2xl shadow-2xl border border-purple-500/20 p-4 hover:border-cyan-500/40 transition-all';
 
                 const textDiv = document.createElement('div');
                 textDiv.className = 'text-gray-300 mb-3';
-                const p = document.createElement('p');
-                p.className = 'text-gray-200';
-                p.textContent = item;
-                textDiv.appendChild(p);
+                
+                const titleP = document.createElement('p');
+                titleP.className = 'text-gray-100 font-bold mb-2';
+                titleP.textContent = title;
+                textDiv.appendChild(titleP);
+                
+                if (description) {
+                    const descP = document.createElement('p');
+                    descP.className = 'text-gray-400 text-sm';
+                    descP.textContent = description;
+                    textDiv.appendChild(descP);
+                }
 
                 const btn = document.createElement('button');
                 btn.id = 'createBtn' + i;
                 btn.className =
                     'text-sm bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-2 rounded hover:from-blue-700 hover:to-purple-700 transition-all flex items-center gap-2';
-                btn.onclick = () => createArticle(item, i);
+                btn.onclick = () => createArticle(title, i);
 
                 const span = document.createElement('span');
                 span.id = 'createText' + i;
