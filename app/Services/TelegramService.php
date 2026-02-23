@@ -30,7 +30,7 @@ class TelegramService
                 $cleanContent = mb_substr($cleanContent, 0, 200) . '...';
             }
             
-            $readMoreUrl = "https://lightslategrey-gorilla-734246.hostingersite.com/article/{$articleId}";
+            $readMoreUrl = "https://lightslategrey-gorilla-734246.hostingersite.com/articles/{$articleId}";
             $message = "📰 {$cleanTitle}\n\n{$cleanContent}\n\n🔗 اقرأ المزيد: {$readMoreUrl}";
             
             $response = Http::timeout(30)->post("https://api.telegram.org/bot{$this->botToken}/sendPhoto", [
