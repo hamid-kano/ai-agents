@@ -51,8 +51,8 @@
 
             newsItems.forEach((item, i) => {
                 const lines = item.split('\n').filter(l => l.trim());
-                const title = lines[0] || item;
-                const description = lines.slice(1).join(' ') || '';
+                const title = (lines[0] || item).replace(/\*\*/g, '').trim();
+                const description = lines.slice(1).join(' ').replace(/\*\*/g, '').trim() || '';
                 
                 const div = document.createElement('div');
                 div.className =
