@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class TelegramService
 {
@@ -36,12 +37,12 @@ class TelegramService
                 'caption' => $message
             ]);
             
-            \Log::info('Telegram Response:', $response->json());
+            Log::info('Telegram Response:', $response->json());
             
             return $response->successful();
         } catch (\Exception $e) {
-            \Log::error('Telegram Error: ' . $e->getMessage());
+            Log::error('Telegram Error: ' . $e->getMessage());
             return false;
         }
-    
+    }
 }
