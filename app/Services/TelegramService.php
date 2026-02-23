@@ -20,8 +20,10 @@ class TelegramService
     {
         try {
             $cleanTitle = html_entity_decode(strip_tags($title), ENT_QUOTES | ENT_HTML5, 'UTF-8');
-            $cleanContent = html_entity_decode(strip_tags($content), ENT_QUOTES | ENT_HTML5, 'UTF-8');
+            $cleanTitle = preg_replace('/\*\*/', '', $cleanTitle);
             
+            $cleanContent = html_entity_decode(strip_tags($content), ENT_QUOTES | ENT_HTML5, 'UTF-8');
+            $cleanContent = preg_replace('/\*\*/', '', $cleanContent);
             $cleanContent = preg_replace('/\. /', ".\n\n", $cleanContent);
             
             if (mb_strlen($cleanContent) > 200) {
